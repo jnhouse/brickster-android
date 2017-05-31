@@ -19,6 +19,9 @@ package com.codefox421.brickster;
 import java.util.ArrayList;
 import java.util.Set;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
+import android.content.pm.PackageManager;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -150,8 +153,20 @@ public class DeviceListActivity extends Activity {
             mBtAdapter.cancelDiscovery();
         }
 
-        // Request discover from BluetoothAdapter
-        mBtAdapter.startDiscovery();
+        int hasPermission = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (hasPermission == PackageManager.PERMISSION_GRANTED) {
+
+
+            // Request discover from BluetoothAdapter
+            mBtAdapter.startDiscovery();
+
+            return;
+        }
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION
+                },1001);
     }
 
     // The on-click listener for all devices in the ListViews
