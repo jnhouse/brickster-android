@@ -258,26 +258,11 @@ public class BricksTer extends Activity {
 		
 		if (!mEnablingBT) { // If we are turning on the BT we cannot check if it's enable
 		    if ( (mBluetoothAdapter != null)  && (!mBluetoothAdapter.isEnabled()) ) {
-			
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(R.string.alert_dialog_turn_on_bt)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle(R.string.alert_dialog_warning_title)
-                    .setCancelable( false )
-                    .setPositiveButton(R.string.alert_dialog_yes, new DialogInterface.OnClickListener() {
-                    	public void onClick(DialogInterface dialog, int id) {
-                    		mEnablingBT = true;
-                    		Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    		startActivityForResult(enableIntent, REQUEST_ENABLE_BT);			
-                    	}
-                    })
-                    .setNegativeButton(R.string.alert_dialog_no, new DialogInterface.OnClickListener() {
-                    	public void onClick(DialogInterface dialog, int id) {
-                    		finishDialogNoBluetooth();            	
-                    	}
-                    });
-                AlertDialog alert = builder.create();
-                alert.show();
+
+				// no need to request permission since we have to ask permission now
+				mEnablingBT = true;
+				Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+				startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 		    }		
 		
 		    if (!mSerialServices.isEmpty()) {
